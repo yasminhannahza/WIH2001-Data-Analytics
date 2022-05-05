@@ -1,0 +1,7 @@
+"0","par(mfrow=c(1,2))"
+"0","#histogram"
+"0","hist(breast$Cl.thickness,"
+"0","     main=""HISTOGRAM"","
+"0","     xlab=""Thickness"","
+"0","     xlim=c(1,10),"
+"0","     col=""deeppink1"")"

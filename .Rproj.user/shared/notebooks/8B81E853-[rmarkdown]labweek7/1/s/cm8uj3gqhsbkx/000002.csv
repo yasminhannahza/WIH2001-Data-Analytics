@@ -1,0 +1,7 @@
+"0","par(mfrow=c(1,2))"
+"0","#histogram"
+"0","hist(breast$Cell.size,"
+"0","     main=""HISTOGRAM"","
+"0","     xlab=""Size"","
+"0","     xlim=c(1,10),"
+"0","     col=""darkred"")"

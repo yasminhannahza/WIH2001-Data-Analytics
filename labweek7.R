@@ -1,0 +1,180 @@
+#task 1
+#install and load packages
+install.packages("mlbench")
+install.packages("caret")
+library(mlbench)
+library(caret)
+data("BreastCancer")
+
+#task 2
+#displays the dimension of the "BreastCancer"" dataset
+dim(BreastCancer)
+
+
+#task 3
+#displays the first 20 recods of the ""BreastCancer"" dataset
+head(BreastCancer, 20)
+
+#task 4
+#displays the data types for the attributes in the "BreastCancer" dataset
+#it should be clear from the result that only the "ld" attribute has the integer data type while the rest of the attributes have the "factor" data type
+sapply(BreastCancer, class)
+
+
+#task 5
+#removes the "Id attribute from the "BreastCancer" dataset 
+NoId_BreastCancer = subset(BreastCancer,select = -(Id))
+
+
+#convert the data types of the remaining attributes to ""numeric"
+#EXTRA: convert class into characters first
+breast=NoId_BreastCancer
+breast$Class<-as.character(breast$Class)
+breast$Class<- replace(breast$Class,breast$Class=='benign', "1")
+breast$Class<- replace(breast$Class,breast$Class=='malignant', "2")
+#convert the data types of the remaining attributes to "numeric"
+indx <- sapply(breast, is.factor)
+breast[indx] <- lapply(breast[indx], function(x) as.numeric(as.character(x)))
+indx1 <- sapply(breast, is.character)
+breast[indx1] <- lapply(breast[indx1], function(x) as.numeric(as.character(x)))
+#check if the data type is changed
+sapply(breast,class)
+
+
+#task 6
+#displays the summary information of the data in the "BreastCancer" dataset
+#comment on the summary information of the data
+summary(BreastCancer)
+summary(breast)
+
+#task 7
+#Write R-code that displays the distribution of classes in the "BreastCancer" dataset
+#Comment on the class distribution
+barchart(BreastCancer$Class, xlab="Frequency", ylab="Category", main="Distribution of Classes")
+
+#task 8
+#write R-code that displays the correlation of attributes in the "BreastCancer" dataset
+breast_correlation<-round(cor(breast),2)
+
+#task 9
+#write R-code that displays the distribution of individual attributes in the "BreastCancer" dataset.
+#Hint: Plot the histogram and density plots and comment on these graphs. 
+
+#1. clump thickness
+#histogram
+par(mfrow=c(1,2))
+hist(breast$Cl.thickness,
+     main="HISTOGRAM",
+     xlab="Thickness",
+     xlim=c(1,10),
+     col="deeppink1")
+
+#density
+plot(density(breast$Cl.thickness),
+     lwd=3,col = "deeppink4", main="DENSITY")
+
+#2. cell size
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Cell.size,
+     main="HISTOGRAM",
+     xlab="Size",
+     xlim=c(1,10),
+     col="darkred")
+#density
+plot(density(breast$Cell.size),
+     lwd=3,col = "darksalmon", main="DENSITY")
+
+#3. cell shape
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Cell.shape,
+     main="HISTOGRAM",
+     xlab="Shape",
+     xlim=c(1,10),
+     col="gold")
+#density
+plot(density(breast$Cell.shape),
+     lwd=3,col = "gold1", main="DENSITY")
+
+#4. marginal adhesion
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Marg.adhesion,
+     main="HISTOGRAM",
+     xlab="Margin",
+     xlim=c(1,10),
+     col="coral")
+#density
+plot(density(breast$Marg.adhesion),
+     lwd=3,col = "coral1", main="DENSITY")
+
+#5. epithelial cell size
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Epith.c.size,
+     main="HISTOGRAM",
+     xlab="Size",
+     xlim=c(1,10),
+     col="cyan")
+#density
+plot(density(breast$Epith.c.size),
+     lwd=3,col = "cyan3", main="DENSITY")
+
+#6. bare nuclei
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Bare.nuclei,
+     main="HISTOGRAM",
+     xlim=c(1,10),
+     col="brown")
+#density
+plot(density(breast$Bare.nuclei,na.rm = TRUE),
+     lwd=3,col = "brown2", main="DENSITY")
+
+#7. bland chromatin
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Bl.cromatin,
+     main="HISTOGRAM",
+     xlim=c(1,10),
+     col="bisque")
+#density
+plot(density(breast$Bl.cromatin),
+     lwd=3,col = "bisque3", main="DENSITY")
+
+#8. normal nucleoli
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Normal.nucleoli,
+     main="HISTOGRAM",
+     xlim=c(1,10),
+     col="blue")
+#density
+plot(density(breast$Normal.nucleoli),
+     lwd=3,col = "blue4", main="DENSITY")
+
+#9. mitoses
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Mitoses,
+     main="HISTOGRAM",
+     xlim=c(1,10),
+     col="blueviolet")
+#density
+plot(density(breast$Cell.size),
+     lwd=3,col = "darkmagenta", main="DENSITY")
+
+#class
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Class,
+     main="CLASSESS",
+     col="lightcoral")
+#density
+plot(density(breast$Class),
+     lwd=3,col = "violetred", main="DENSITY")
+
+install.packages("rmarkdown")
+tinytex::install_tinytex()
+

@@ -1,0 +1,235 @@
+---
+title: "Lab Week 7"
+author: "Yasmin Hannah"
+date: "5/6/2022"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Task 1
+Install and load packages
+```{r, message=FALSE,warning=FALSE}
+#install.packages("mlbench")
+#install.packages("caret")
+library(mlbench)
+library(caret)
+data("BreastCancer")
+```
+
+# Task 2
+Displays the dimension of the “BreastCancer” dataset
+```{r}
+dim(BreastCancer)
+```
+
+# Task 3
+Displays the first 20 recods of the “BreastCancer” dataset
+```{r}
+head(BreastCancer, 20)
+```
+
+
+# Task 4
+Displays the data types for the attributes in the "BreastCancer" dataset\
+It should be clear from the result that only the "Id" attribute has the integer data type while the rest of the attributes have the "factor" data type
+```{r}
+sapply(BreastCancer, class)
+```
+
+# Task 5
+Removes the “Id” attribute from the “BreastCancer” dataset
+```{r}
+NoId_BreastCancer = subset(BreastCancer,select = -(Id))
+```
+
+Convert the data types of the remaining attributes to numeric\
+```{r, warning=FALSE}
+#Extra: convert class into characters first
+breast=NoId_BreastCancer
+breast$Class<-as.character(breast$Class)
+breast$Class<- replace(breast$Class,breast$Class=='benign', "1")
+breast$Class<- replace(breast$Class,breast$Class=='malignant', "2")
+
+#convert the data types of the remaining attributes to “numeric”
+indx <- sapply(breast, is.factor)
+breast[indx] <- lapply(breast[indx], function(x) as.numeric(as.character(x)))
+indx1 <- sapply(breast, is.character)
+breast[indx1] <- lapply(breast[indx1], function(x) as.numeric(as.character(x)))
+
+#check if the data type is changed
+sapply(breast,class)
+```
+
+# Task 6
+Displays the summary information of the data in the “BreastCancer” dataset\
+Comment on the summary information of the data\
+
+```{r}
+summary(breast)
+```
+
+*Comments*\
+A few details may be gathered from the summary results presented, which tells us the three quadrants, lowest, median, mean, and maximum. For example, the mean clump thickness is 4.418, indicating that the average clump thickness in the sample is 4.418. The dataset is four. This finding about mean values holds true for all dataset characteristics. The attribute Bare.nuclei, which has NA values, is also included in the summary table. As a result, We may next plan how to deal with the NA values (e.g., removal, exclusion, imputation, etc.).
+
+# Task 7
+Write R-code that displays the distribution of classes in the “BreastCancer” dataset\
+Comment on the class distribution\
+
+```{r}
+barchart(BreastCancer$Class, xlab="Frequency", ylab="Category", main="Distribution of Classes")
+
+```
+
+*Comments*\
+Because this column comprises categorical data in the malignant and benign categories, a bar chart is the most effective way to display its distribution. According to the frequency distribution, benign classifications outnumber malignant classes. We may deduce that there are more benign than malignant kinds of data in this dataset.
+
+# Task 8
+Displays the correlation of attributes in the “BreastCancer” dataset
+```{r}
+breast_correlation<-round(cor(breast),2)
+```
+
+# Task 9
+Displays the distribution of individual attributes in the “BreastCancer” dataset.\
+Hint: Plot the histogram and density plots and comment on these graphs. 
+
+#### 1. clump thickness
+```{r}
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Cl.thickness,
+     main="HISTOGRAM",
+     xlab="Thickness",
+     xlim=c(1,10),
+     col="deeppink1")
+
+#density
+plot(density(breast$Cl.thickness),
+     lwd=3,col = "deeppink4", main="DENSITY")
+```
+
+#### 2. cell size
+```{r}
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Cell.size,
+     main="HISTOGRAM",
+     xlab="Size",
+     xlim=c(1,10),
+     col="darkred")
+#density
+plot(density(breast$Cell.size),
+     lwd=3,col = "darksalmon", main="DENSITY")
+```
+
+#### 3. cell shape
+```{r}
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Cell.shape,
+     main="HISTOGRAM",
+     xlab="Shape",
+     xlim=c(1,10),
+     col="gold")
+#density
+plot(density(breast$Cell.shape),
+     lwd=3,col = "gold1", main="DENSITY")
+```
+
+#### 4. marginal adhesion
+```{r}
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Marg.adhesion,
+     main="HISTOGRAM",
+     xlab="Margin",
+     xlim=c(1,10),
+     col="coral")
+#density
+plot(density(breast$Marg.adhesion),
+     lwd=3,col = "coral1", main="DENSITY")
+```
+
+#### 5. epithelial cell size
+```{r}
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Epith.c.size,
+     main="HISTOGRAM",
+     xlab="Size",
+     xlim=c(1,10),
+     col="cyan")
+#density
+plot(density(breast$Epith.c.size),
+     lwd=3,col = "cyan3", main="DENSITY")
+```
+
+#### 6. bare nuclei
+```{r}
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Bare.nuclei,
+     main="HISTOGRAM",
+     xlim=c(1,10),
+     col="brown")
+#density
+plot(density(breast$Bare.nuclei,na.rm = TRUE),
+     lwd=3,col = "brown2", main="DENSITY")
+```
+
+#### 7. bland chromatin
+```{r}
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Bl.cromatin,
+     main="HISTOGRAM",
+     xlim=c(1,10),
+     col="bisque")
+#density
+plot(density(breast$Bl.cromatin),
+     lwd=3,col = "bisque3", main="DENSITY")
+```
+
+#### 8. normal nucleoli
+```{r}
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Normal.nucleoli,
+     main="HISTOGRAM",
+     xlim=c(1,10),
+     col="blue")
+#density
+plot(density(breast$Normal.nucleoli),
+     lwd=3,col = "blue4", main="DENSITY")
+```
+
+#### 9. mitoses
+```{r}
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Mitoses,
+     main="HISTOGRAM",
+     xlim=c(1,10),
+     col="blueviolet")
+#density
+plot(density(breast$Cell.size),
+     lwd=3,col = "darkmagenta", main="DENSITY")
+```
+
+#### 10. class
+```{r}
+par(mfrow=c(1,2))
+#histogram
+hist(breast$Class,
+     main="CLASSESS",
+     col="lightcoral")
+#density
+plot(density(breast$Class),
+     lwd=3,col = "violetred", main="DENSITY")
+```

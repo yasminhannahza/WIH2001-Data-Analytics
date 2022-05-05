@@ -1,0 +1,4 @@
+"0",""
+"0","#density"
+"0","plot(density(breast$Cl.thickness),"
+"0","     lwd=3,col = ""deeppink4"", main=""DENSITY"")"

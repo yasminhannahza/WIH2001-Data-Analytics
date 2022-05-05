@@ -1,0 +1,5 @@
+"0","par(mfrow=c(1,2))"
+"0","#histogram"
+"0","hist(breast$Class,"
+"0","     main=""CLASSESS"","
+"0","     col=""lightcoral"")"
