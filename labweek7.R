@@ -175,6 +175,4 @@ hist(breast$Class,
 plot(density(breast$Class),
      lwd=3,col = "violetred", main="DENSITY")
 
-install.packages("rmarkdown")
-tinytex::install_tinytex()
 
